@@ -11,10 +11,6 @@
       "url": "https://bfzyapi.com/api.php/provide/vod"
     },
     {
-      "name": "索尼资源",
-      "url": "https://suoniapi.com/api.php/provide/vod"
-    },
-    {
       "name": "红牛资源",
       "url": "https://www.hongniuzy2.com/api.php/provide/vod"
     },
@@ -23,53 +19,45 @@
       "url": "https://jszyapi.com/api.php/provide/vod"
     },
     {
-      "name": "闪电资源",
-      "url": "https://sdzyapi.com/api.php/provide/vod"
-    },
-    {
       "name": "新浪资源",
       "url": "https://api.xinlangapi.com/xinlangapi.php/provide/vod"
     },
     {
-      "name": "光速资源",
-      "url": "https://api.guangsuapi.com/api.php/provide/vod"
-    },
-    {
-      "name": "金鹰资源",
-      "url": "https://jyzyapi.com/provide/vod"
-    },
-    {
-      "name": "非凡资源",
-      "url": "http://cj.ffzyapi.com/api.php/provide/vod"
-    },
-    {
-      "name": "樱花资源",
-      "url": "https://m3u8.apiyhzy.com/api.php/provide/vod"
+      "name": "魔都资源",
+      "url": "https://caiji.moduapi.cc/api.php/provide/vod"
     },
     {
       "name": "百度资源",
       "url": "https://api.apibdzy.com/api.php/provide/vod"
+    },
+    {
+      "name": "U酷资源",
+      "url": "https://api.ukuapi.com/api.php/provide/vod"
+    },
+    {
+      "name": "非凡资源",
+      "url": "http://cj.ffzyapi.com/api.php/provide/vod"
     }
   ],
   "liveSources": [
     {
-      "name": "FanMingMing 央卫高清 (IPv6)",
+      "name": "全国电视·综合 (IPv4)",
+      "url": "https://live.zbds.top/tv/iptv4.m3u",
+      "epg": "http://epg.51zmt.top:8000/e.xml"
+    },
+    {
+      "name": "央卫高清·精选 (全频道)",
+      "url": "https://raw.githubusercontent.com/wwb521/live/main/tv.m3u",
+      "epg": "http://epg.51zmt.top:8000/e.xml"
+    },
+    {
+      "name": "中国电视·自动更新",
+      "url": "https://raw.githubusercontent.com/hujingguang/ChinaIPTV/main/cnTV_AutoUpdate.m3u8"
+    },
+    {
+      "name": "央卫超清·IPv6 (备用)",
       "url": "https://live.fanmingming.com/tv/m3u/ipv6.m3u",
       "epg": "https://live.fanmingming.com/e.xml"
-    },
-    {
-      "name": "Guovin 电视直播综合",
-      "url": "https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u",
-      "epg": "http://epg.51zmt.top:8000/e.xml"
-    },
-    {
-      "name": "YueChan 精选直播",
-      "url": "https://raw.githubusercontent.com/YueChan/Live/main/IPTV.m3u",
-      "epg": "http://epg.51zmt.top:8000/e.xml"
-    },
-    {
-      "name": "IPTV-org 中国频道",
-      "url": "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/cn.m3u"
     }
   ]
 }
