@@ -32,7 +32,13 @@ export async function GET(req: Request) {
   }
 
   try {
-    const res = await fetchUpstream(target, { timeoutMs: 8000, headers: { Accept: 'application/json' } });
+    const res = await fetchUpstream(target, {
+      timeoutMs: 8000,
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      },
+    });
     if (!res.ok) {
       return NextResponse.json({ error: `订阅地址返回 HTTP ${res.status}` }, { status: 502 });
     }

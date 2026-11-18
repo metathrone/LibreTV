@@ -240,21 +240,37 @@ export function installFetchSSRFProtection(): void {
       return originalFetch(input, init);
     }
 
-    // 在受保护作用域内，如果未提供专属 dispatcher，自动注入安全专用的 Agent
-    const agent = createSSRFAgent({ allowPrivate: ctx.allowPrivate });
+    // 在 Cloudflare Workers / workerd 等 Edge 环境下，不支持 Node socket / undici Agent，
+    // Cloudflare 运行时边缘自带网络安全防护，直接使用原生 fetch
+    const isEdgeWorker =
+      'WebSocketPair' in globalThis ||
+      (typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers') ||
+      Boolean(process?.versions && (process.versions as Record<string, string>).workerd);
+
+    if (isEdgeWorker) {
+      return originalFetch(input, init);
+    }
+
     try {
-      // input/init 走 undici 自己的重载签名：DOM 的 Request 类型与 undici 的
-      // Request 类型在 duplex 上要求不同，直接传会报类型不兼容，这里只是同族对象互转
-      const res = await undiciFetch(input as Parameters<typeof undiciFetch>[0], {
-        ...(init as object),
-        dispatcher: agent,
-      });
-      // 收到响应后优雅计划关闭 Agent，避免连接池跨请求保留
-      agent.close().catch(() => {});
-      return res as unknown as Response;
-    } catch (err) {
-      agent.destroy().catch(() => {});
-      throw err;
+      // 在受保护作用域内，如果未提供专属 dispatcher，自动注入安全专用的 Agent
+      const agent = createSSRFAgent({ allowPrivate: ctx.allowPrivate });
+      try {
+        // input/init 走 undici 自己的重载签名：DOM 的 Request 类型与 undici 的
+        // Request 类型在 duplex 上要求不同，直接传会报类型不兼容，这里只是同族对象互转
+        const res = await undiciFetch(input as Parameters<typeof undiciFetch>[0], {
+          ...(init as object),
+          dispatcher: agent,
+        });
+        // 收到响应后优雅计划关闭 Agent，避免连接池跨请求保留
+        agent.close().catch(() => {});
+        return res as unknown as Response;
+      } catch (err) {
+        agent.destroy().catch(() => {});
+        throw err;
+      }
+    } catch {
+      // 若当前环境不支持 undici Dispatcher，安全降级至原生 fetch
+      return originalFetch(input, init);
     }
   };
 }

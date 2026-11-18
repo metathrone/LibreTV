@@ -55,8 +55,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .fetchQuery({ queryKey: STATUS_QUERY_KEY, queryFn: () => api.status() })
       .then((s) => {
         if (cancelled) return;
-        setVerified(s.verified);
-        setSetupRequired(!s.passwordRequired);
+        setVerified(!s.passwordRequired || s.verified);
+        setSetupRequired(false);
         setVersion(s.version);
         setChecked(true);
       })
@@ -72,7 +72,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () =>
       onUnauthorized((event) => {
         const setup = (event as CustomEvent).detail === 'setup';
-        setSetupRequired(setup);
+        if (setup) return;
+        setSetupRequired(false);
         setVerified(false);
         setModalOpen(true);
       }),

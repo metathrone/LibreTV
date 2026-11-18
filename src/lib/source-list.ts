@@ -41,9 +41,15 @@ interface RawItem {
  */
 export function normalizeUrl(raw: unknown, trimTrailingSlash: boolean): string | undefined {
   if (typeof raw !== 'string') return undefined;
-  const trimmed = raw.trim();
+  let trimmed = raw.trim();
   if (!trimmed) return undefined;
-  if (!/^https?:\/\//i.test(trimmed)) return undefined;
+  if (!/^https?:\/\//i.test(trimmed)) {
+    if (/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/.*)?$/.test(trimmed)) {
+      trimmed = 'http://' + trimmed;
+    } else {
+      return undefined;
+    }
+  }
   const withoutEmptyTail = trimmed.replace(/[?#]+$/, '');
   try {
     new URL(withoutEmptyTail);
