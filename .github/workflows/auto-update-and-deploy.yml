@@ -47,11 +47,10 @@ jobs:
 
           if [ "$UPSTREAM_DIFF" -gt 0 ]; then
             echo "发现上游更新，正在合并..."
-            git merge upstream/main --no-edit || {
-              echo "检测到冲突，优先保留自定义配置文件..."
-              git checkout --ours open-next.config.ts wrangler.jsonc .github/workflows/ || true
+            git merge -X ours upstream/main -m "chore: 同步上游更新并保留自定义配置 [skip ci]" || {
+              git checkout --ours open-next.config.ts wrangler.jsonc package.json package-lock.json .github/ || true
               git add -A
-              git commit -m "chore: 解决上游合并冲突" || true
+              git commit -m "chore: 解决上游合并冲突 [skip ci]" || true
             }
 
             # 恢复自定义配置文件
