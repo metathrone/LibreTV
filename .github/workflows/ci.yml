@@ -35,6 +35,7 @@ concurrency:
 
 jobs:
   checks:
+    if: github.repository == 'LibreSpark/LibreTV'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
